@@ -34,7 +34,7 @@ cd ipl_data_project
 npm install
 ```
 
-**4. To the Jest File **
+**4. To the Jest File**
 
 ```
 npm test
