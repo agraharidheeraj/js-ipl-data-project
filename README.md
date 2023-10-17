@@ -19,7 +19,7 @@ To get started with this project, follow these steps:
 **1. Clone the project repository:
 
    ```bash
-   git clone https://github.com/yourusername/ipl-data-project.git
+   git clone https://github.com/agraharidheeraj/js-ipl-data-project.git
    ```
 
 **2. cd to the `abhishek_ipl` directory**
