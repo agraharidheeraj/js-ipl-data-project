@@ -5,3 +5,7 @@ yarn-error.log
 
 # macOS specific
 .DS_Store
+
+
+# Coverage directory used by tools like istanbul
+coverage
