@@ -44,8 +44,6 @@ const findMostDismissedPlayer = require('../server/8_DismissalsByPlayer.js');
   it('should handle empty data', () => {
     const data = [];
     const result = findMostDismissedPlayer(data);
-
-    // When there is no data, it should return an empty array.
     expect(result).toEqual([]);
   });
 

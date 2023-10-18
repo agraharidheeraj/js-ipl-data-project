@@ -1,42 +1,29 @@
-function findMostDismissedPlayer(deliveries) {
-    const dismissalsCount = {};
-  
-    deliveries.forEach((delivery) => {
-      const batsman = delivery.batsman;
-      const dismissedBy = delivery.player_dismissed;
-  
-      if (dismissedBy !== '' && batsman !== dismissedBy) {
-        const dismissalKey = `${batsman}-${dismissedBy}`;
-  
-        if (dismissalsCount[dismissalKey]) {
-          dismissalsCount[dismissalKey]++;
-        } else {
-          dismissalsCount[dismissalKey] = 1;
-        }
-      }
-    });
-  
-    let highestDismissalsCount = 0;
-    let mostDismissedPlayers = [];
-  
-    for (const dismissalKey in dismissalsCount) {
-      const count = dismissalsCount[dismissalKey];
-  
-      if (count > highestDismissalsCount) {
-        highestDismissalsCount = count;
-        mostDismissedPlayers = [dismissalKey];
-      } else if (count === highestDismissalsCount) {
-        mostDismissedPlayers.push(dismissalKey);
-      }
+function findMostDismissedPlayersAndBowler(deliveries) {
+  const dismissedByBowlerMap = new Map();
+
+  for (const delivery of deliveries) {
+    const dismissedPlayer = delivery.player_dismissed;
+    const bowler = delivery.bowler;
+
+    if (dismissedPlayer && bowler) {
+      const key = `${dismissedPlayer} dismissed by ${bowler}`;
+      dismissedByBowlerMap.set(key, (dismissedByBowlerMap.get(key) || 0) + 1);
     }
-  
-    const mostDismissedPlayersData = mostDismissedPlayers.map((dismissalKey) => {
-      const [batsman, dismissedBy] = dismissalKey.split('-');
-      return { batsman, dismissedBy, count: dismissalsCount[dismissalKey] };
-    });
-  
-    return mostDismissedPlayersData;
   }
-  
-  module.exports = findMostDismissedPlayer;
-  
+
+  let mostDismissedCombinations = [];
+  let maxDismissals = 0;
+
+  for (const [key, dismissals] of dismissedByBowlerMap) {
+    if (dismissals > maxDismissals) {
+      maxDismissals = dismissals;
+      mostDismissedCombinations = [key];
+    } else if (dismissals === maxDismissals) {
+      mostDismissedCombinations.push(key);
+    }
+  }
+
+  return { mostDismissedCombinations, maxDismissals };
+}
+
+module.exports = findMostDismissedPlayersAndBowler;
