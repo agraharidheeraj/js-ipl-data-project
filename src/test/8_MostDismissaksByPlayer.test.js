@@ -1,50 +1,41 @@
-const findMostDismissedPlayer = require('../server/8_DismissalsByPlayer.js');
+const getHighestDismissals = require('../server/8_DismissalsByPlayer.js');
 
+const deliveriesData = [
+  { player_dismissed: 'Virat Kohli', bowler: 'Bowler X' },
+  { player_dismissed: 'Rohit Sharma', bowler: 'Bowler Y' },
+  { player_dismissed: 'Virat Kohli', bowler: 'Bowler Z' },
+  { player_dismissed: 'Virat Kohli', bowler: 'Bowler X' },
+  { player_dismissed: 'MS Dhoni', bowler: 'Bowler Z' },
+  { player_dismissed: 'MS Dhoni', bowler: 'Bowler Z' },
+];
 
-  test('should return the player dismissed the most by another player', () => {
-    const data = [
-      {
-        batsman: 'V Kohli',
-        player_dismissed: 'AB de Villiers',
-      },
-      {
-        batsman: 'V Kohli',
-        player_dismissed: 'AB de Villiers',
-      },
-      {
-        batsman: 'V Kohli',
-        player_dismissed: 'AB de Villiers',
-      },
-      {
-        batsman: 'V Kohli',
-        player_dismissed: 'MS Dhoni',
-      },
-      {
-        batsman: 'MS Dhoni',
-        player_dismissed: 'V Kohli',
-      },
-      {
-        batsman: 'AB de Villiers',
-        player_dismissed: 'V Kohli',
-      },
+test('Calculate highest Dismissals', () => {
+  const result = getHighestDismissals(deliveriesData);
+  console.log(result);
+  expect(result).toEqual({
+    mostDismissedCombinations: [
+      'Virat Kohli dismissed by Bowler X',
+      'MS Dhoni dismissed by Bowler Z',
+    ],
+    maxDismissals: 2,
+  });
+});
+  test('Calculate Other highest Dismissals', () => {
+    const emptyDeliveriesData = [
+      { player_dismissed: 'Player Virat Kohli', bowler: 'Bowler B' },
+      { player_dismissed: 'Player Virat Kohli', bowler: 'Bowler B' },
+      { player_dismissed: 'Player Ms Dhoni', bowler: 'Bowler D' },
+      { player_dismissed: 'Player Rohit Sharma', bowler: 'Bowler F' },
+      { player_dismissed: 'Player Virat Kohli', bowler: 'Bowler B' },
     ];
+  
+    const result = getHighestDismissals(emptyDeliveriesData);
+    console.log(result);
+    expect(result).toEqual( {
+      mostDismissedCombinations: [ 'Player Virat Kohli dismissed by Bowler B' ],
+      maxDismissals: 3
+    });
+});
 
-    const result = findMostDismissedPlayer(data);
-
-   
-    expect(result).toEqual([
-      {
-        batsman: 'V Kohli',
-        dismissedBy: 'AB de Villiers',
-        count: 3,
-      },
-    ]);
-  });
-
-  it('should handle empty data', () => {
-    const data = [];
-    const result = findMostDismissedPlayer(data);
-    expect(result).toEqual([]);
-  });
 
 
