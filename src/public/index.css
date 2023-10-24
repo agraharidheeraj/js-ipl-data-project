@@ -1,0 +1,17 @@
+/* Add your CSS styling here */
+.chart-container {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10rem;
+}
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    background-color: brown;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: white;
+    
+}
