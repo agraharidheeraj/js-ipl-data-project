@@ -39,6 +39,51 @@ npm install
 ```
 npm test
 ```
+# IPL Data Visualization Project
+
+This project is a data visualization of Indian Premier League (IPL) data using Highcharts.
+
+## Features
+
+- Visualizes various IPL statistics, including matches played per season, the most economical bowlers, players with the most awards, and more.
+- Interactive and user-friendly charts.
+- Data is loaded from JSON files.
+
+
+2. Navigate to the project folder:
+
+```
+/src/public 
+```
+
+3. Install the necessary dependencies:
+
+```
+npm install http-server 
+```
+
+4. Start a local server using `http-server`:
+
+5. Open a web browser and go to [http://localhost:8080](http://localhost:8080) to view the data visualization.
+
+## Data Sources
+
+The data for this project is loaded from JSON files located in the `output` directory.
+
+## Project Structure
+
+- `index.html`: The main HTML file containing the Highcharts charts.
+- `output`: JSON data files used for visualization.
+- `index.js`: JavaScript files for data processing and chart creation.
+
+## Technologies Used
+
+- HTML, CSS, and JavaScript
+- [Highcharts](https://www.highcharts.com/)
+
+## Authors
+
+- Dheeraj Agrahari
 
 Thankyou
 
