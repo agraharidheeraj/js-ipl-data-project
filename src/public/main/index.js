@@ -1,3 +1,4 @@
+
 // Function to fetch data from JSON and create a Highcharts chart
 const createHighchartFromJSON = (jsonData, containerId, titleText,season,dataGet,Data) => {
     fetch(`./output/${jsonData}.json`)
@@ -131,17 +132,20 @@ fetch('./output/6_playerWithMostAwardsPerSeason.json')
   .then(response => response.json())
   .then(data => {
     const years = Object.keys(data);
-    const players = Object.values(data);
 
-    const playerData = years.map((year, index) => ({
-      name: players[index],
-      y: 1,
-      drilldown: year
-    }));
+    const playerData = years.map(year => {
+      const players = Object.keys(data[year] || {});
+      const topPlayer = players.reduce((a, b) => (data[year][a] > data[year][b] ? a : b), '');
+      return {
+        name: topPlayer,
+        y: data[year] ? data[year][topPlayer] : 0,
+        drilldown: year
+      };
+    });
 
-    const drilldownData = years.map((year, index) => ({
+    const drilldownData = years.map(year => ({
       id: year,
-      data: [[players[index], 1]]
+      data: Object.entries(data[year] || {}).map(([player, count]) => [player, count])
     }));
 
     Highcharts.chart('container-6', {
@@ -149,7 +153,7 @@ fetch('./output/6_playerWithMostAwardsPerSeason.json')
         type: 'column'
       },
       title: {
-        text: 'Players with Most Awards by Year'
+        text: 'Players with Most Player of the Match Awards by Year'
       },
       xAxis: {
         categories: years,
@@ -159,11 +163,11 @@ fetch('./output/6_playerWithMostAwardsPerSeason.json')
       },
       yAxis: {
         title: {
-          text: 'Player'
+          text: 'Count of Awards'
         }
       },
       series: [{
-        name: 'Player',
+        name: 'Award Count',
         data: playerData
       }],
       drilldown: {
@@ -174,9 +178,6 @@ fetch('./output/6_playerWithMostAwardsPerSeason.json')
   .catch(error => {
     console.error('Error fetching data:', error);
   });
-
-
-
 
 
   fetch('./output/7_batsmanStrikeRatePerSeason.json')
@@ -192,7 +193,7 @@ fetch('./output/6_playerWithMostAwardsPerSeason.json')
                 type: 'column'
             },
             title: {
-                text: 'Batsman Strike Rates Over the Years'
+                text: 'V Kohli Strike Rates Over the Years'
             },
             xAxis: {
                 categories: years,

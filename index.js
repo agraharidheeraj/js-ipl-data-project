@@ -32,7 +32,7 @@ fs.createReadStream(matches)
         deliveriesData.push(delivery);
       })
       .on('end', () => {
-        const outputFile1 = './src/public/output/1_MatchesPerYearData';
+        const outputFile1 = './src/public/output/1_MatchesPerYearData.json';
         const outputFile2 = './src/public/output/2_MatchesWonPerTeamPerYearData.json';
         const outputFile3 = './src/public/output/3_ExtraRunsConcededData.json'; 
         const outputFile4 = './src/public/output/4_topEconomicalBowlers.json';

@@ -1,37 +1,47 @@
 function findPlayerWithMostPOMAwards(matches) {
-    const playerOfTheMatchBySeason = {};
-    const highestPlayerOfTheMatchBySeason={};
-  
-    matches.forEach((match) => {
-      const season = match.season;
-      const playerOfTheMatch = match.player_of_match;
-  
-  
-      if (playerOfTheMatch) {
-        if (playerOfTheMatchBySeason[season]) {
-          if (playerOfTheMatchBySeason[season][playerOfTheMatch]) {
-            playerOfTheMatchBySeason[season][playerOfTheMatch]++;
-          } else {
-            playerOfTheMatchBySeason[season][playerOfTheMatch] = 1;
-          }
-        } else {
-          playerOfTheMatchBySeason[season] = { [playerOfTheMatch]: 1 };
-        }
-      }
-    });
-  
-    for (const season in playerOfTheMatchBySeason) {
-      const players = playerOfTheMatchBySeason[season];
-      const highestPlayer = Object.keys(players).reduce((a, b) => players[a] > players[b] ? a : b);
-      highestPlayerOfTheMatchBySeason[season] = highestPlayer;
+  const playersManOfTheMatchCount = {};
+
+  matches.forEach((match) => {
+    const { season, player_of_match } = match;
+
+    if (!playersManOfTheMatchCount[season]) {
+      playersManOfTheMatchCount[season] = {};
     }
-  
-    const formattedResult = {};
-    for (const season in highestPlayerOfTheMatchBySeason) {
-      const player = highestPlayerOfTheMatchBySeason[season];
-      formattedResult[season] = player;
+
+    if (!playersManOfTheMatchCount[season][player_of_match]) {
+      playersManOfTheMatchCount[season][player_of_match] = 1;
+    } else {
+      playersManOfTheMatchCount[season][player_of_match]++;
     }
-    return formattedResult;
+
+    if (
+      !playersManOfTheMatchCount[season].maxCount ||
+      playersManOfTheMatchCount[season][player_of_match] >
+        playersManOfTheMatchCount[season].maxCount
+    ) {
+      playersManOfTheMatchCount[season].maxCount =
+        playersManOfTheMatchCount[season][player_of_match];
+
+      playersManOfTheMatchCount[season].player = {
+        [player_of_match]: playersManOfTheMatchCount[season].maxCount,
+      };
+    } else if (
+      playersManOfTheMatchCount[season][player_of_match] ===
+      playersManOfTheMatchCount[season].maxCount
+    ) {
+      playersManOfTheMatchCount[season].player[player_of_match] =
+        playersManOfTheMatchCount[season].maxCount;
+    }
+  });
+
+  const PlayerWithMostPOMAwards = {};
+
+  for (const season in playersManOfTheMatchCount) {
+    PlayerWithMostPOMAwards[season] =
+      playersManOfTheMatchCount[season].player;
   }
-    module.exports = findPlayerWithMostPOMAwards;
-    
+
+  return PlayerWithMostPOMAwards;
+}
+
+module.exports = findPlayerWithMostPOMAwards;
